@@ -93,9 +93,9 @@ export class Form extends Component {
         case 'protein':
             switch (sequence_type) {
             case undefined:
-                return ['blastp', 'blastx'];
+                return ['blastp', 'blastx', 'psiblast'];
             case 'protein':
-                return ['blastp'];
+                return ['blastp', 'psiblast'];
             case 'nucleotide':
                 return ['blastx'];
             }

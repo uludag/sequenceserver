@@ -118,7 +118,7 @@ export class SearchButton extends Component {
  */
     decorate(name) {
         return name
-            .match(/(.?)(blast)(.?)/)
+            .match(/(.*)(blast)(.?)/)
             .slice(1)
             .map(function (token, _) {
                 if (token) {

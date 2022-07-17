@@ -243,6 +243,7 @@ export default class HSP extends React.Component {
       case "blastx":
       case "tblastn":
       case "tblastx":
+      case "psiblast":
         return this.hsp.qframe >= 0 ? this.hsp.qstart : this.hsp.qend;
       case "blastn":
         // BLASTN is a bit weird in that, no matter which direction the query
@@ -262,6 +263,7 @@ export default class HSP extends React.Component {
       case "blastx":
       case "tblastn":
       case "tblastx":
+      case "psiblast":
         return this.hsp.sframe >= 0 ? this.hsp.sstart : this.hsp.send;
       case "blastn":
         // BLASTN is a bit weird in that, no matter which direction the

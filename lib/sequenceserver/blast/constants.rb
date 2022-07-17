@@ -4,7 +4,7 @@ module SequenceServer
   module BLAST
     ERROR_LINE = /Error:\s(.*)/i
 
-    ALGORITHMS = %w[blastn blastp blastx tblastn tblastx].freeze
+    ALGORITHMS = %w[blastn blastp blastx tblastn tblastx psiblast].freeze
 
     OUTFMT_SPECIFIERS = %w[qseqid qgi qacc sseqid sallseqid sgi sallgi sacc
                            sallacc qstart qend sstart send qseq sseq evalue
