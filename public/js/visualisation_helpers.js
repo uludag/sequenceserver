@@ -74,6 +74,10 @@ export function get_seq_type(algorithm) {
             query_seq_type:   'amino_acid',
             subject_seq_type: 'amino_acid'
         },
+        phiblastp: {
+            query_seq_type:   'amino_acid',
+            subject_seq_type: 'amino_acid'
+        },
         blastx: {
             query_seq_type:   'nucleic_acid',
             subject_seq_type: 'amino_acid'

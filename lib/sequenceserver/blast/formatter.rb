@@ -39,9 +39,23 @@ module SequenceServer
 
       def run
         return if File.exist?(file)
-        command = "blast_formatter -archive '#{job.stdout}'" \
-          " -outfmt '#{format} #{specifiers}'"
-        sys(command, path: config[:bin], dir: DOTDIR, stdout: file)
+
+        if job.is_mcr
+          if format == 5  # xml
+            # link xml output to stoud which was generated in xml format
+            command = "ln -s #{job.dir}/stdout #{job.dir}/sequenceserver-xml_report.xml"
+            system(command)
+          elsif format == 7  # custom_tsv
+            # extract the tsv file from the xml output
+            command = "python ./bin/searchresults.py tabulardatafromxml"\
+             " #{job.dir}/sequenceserver-xml_report.xml > #{job.dir}/sequenceserver-custom_tsv_report.tsv"
+            system(command)
+          end
+        else
+          command = "blast_formatter -archive '#{job.stdout}'" \
+            " -outfmt '#{format} #{specifiers}'"
+          sys(command, path: config[:bin], dir: DOTDIR, stdout: file)
+        end
       rescue CommandFailed => e
         # Mostly we will never get here: empty archive file,
         # file permissions, broken BLAST binaries, etc. will

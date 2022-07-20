@@ -191,6 +191,15 @@ export class Form extends Component {
                                 </label>
                             </div>
                         </div>
+                        <div className="col-md-2">
+                            <div className="form-group" style={{ 'textAlign': 'center', 'padding': '7px 0' }}>
+                                <label>
+                                    <input type="checkbox" id="searchwmcr"
+                                        name="searchwmcr"
+                                    />PHI-BLAST search with MCR patterns(*)
+                                </label>
+                            </div>
+                        </div>
                         <SearchButton ref="button" onAlgoChanged={this.handleAlgoChanged} />
                     </div>
                 </form>

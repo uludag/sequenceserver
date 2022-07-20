@@ -19,6 +19,7 @@ module SequenceServer
         else
           validate params
           super do
+            @searchwmcr= params.key?(:searchwmcr)
             @method    = params[:method]
             @qfile     = store('query.fa', params[:sequence])
             @databases = Database[params[:databases]]
@@ -46,6 +47,10 @@ module SequenceServer
       # :nodoc:
       # Deprecated; see Report#extract_params
       attr_reader :advanced_params
+
+      def is_mcr
+        return @searchwmcr
+      end
 
       # :nodoc:
       # Returns path to the imported xml file if the job was created using the
@@ -128,7 +133,15 @@ module SequenceServer
       end
 
       def defaults
-        " -outfmt '11 qcovs qcovhsp' -num_threads #{config[:num_threads]}"
+        # When the -phi-pattern option is specified
+        # psiblast executable does not generate the found results in the archive format.
+        # For this reason we generate the output in XML format
+        if @searchwmcr
+          " -outfmt 5 -phi_pattern /data/embm_mcr/mcr_patterns.txt"\
+          " -num_threads #{config[:num_threads]}"
+        else
+          " -outfmt '11 qcovs qcovhsp' -num_threads #{config[:num_threads]}"
+        end
       end
 
       def validate_method(method)

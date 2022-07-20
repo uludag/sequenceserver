@@ -44,7 +44,7 @@ export class Options extends Component {
             classNames += ' yellow-background';
         }
         return (
-            <div className="col-md-7">
+            <div className="col-md-5">
                 <div className="form-group">
                     <div className="col-md-12">
                         <div className="input-group">

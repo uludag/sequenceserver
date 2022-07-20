@@ -349,7 +349,7 @@ export default class HSP extends React.Component {
    * width is not supplied.
    */
   formatCoords(coord, width) {
-    if (width) {
+    if (width && coord !== undefined) {
       let padding = width - coord.toString().length;
       return Array(padding + 1)
         .join(" ")
