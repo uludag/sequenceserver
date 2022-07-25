@@ -103,6 +103,10 @@ begin
        'Read FASTA and BLAST database from this directory',
        argument: true
 
+    on '-a', 'phiblastpatterns=',
+       'Read phi-blast patterns from this file',
+       argument: true
+
     on 'n', 'num_threads=',
        'Number of threads to use to run a BLAST search',
        argument: true

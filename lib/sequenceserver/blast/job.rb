@@ -49,7 +49,7 @@ module SequenceServer
       attr_reader :advanced_params
 
       def is_mcr
-        return @searchwmcr
+        return @searchwmcr && config[:phiblastpatterns]
       end
 
       # :nodoc:
@@ -136,8 +136,8 @@ module SequenceServer
         # When the -phi-pattern option is specified
         # psiblast executable does not generate the found results in the archive format.
         # For this reason we generate the output in XML format
-        if @searchwmcr
-          " -outfmt 5 -phi_pattern /data/embm_mcr/mcr_patterns.txt"\
+        if is_mcr
+          " -outfmt 5 -phi_pattern #{config[:phiblastpatterns]}"\
           " -num_threads #{config[:num_threads]}"
         else
           " -outfmt '11 qcovs qcovhsp' -num_threads #{config[:num_threads]}"

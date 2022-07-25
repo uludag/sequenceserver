@@ -47,7 +47,7 @@ module SequenceServer
             system(command)
           elsif format == 7  # custom_tsv
             # extract the tsv file from the xml output
-            command = "python ./bin/searchresults.py tabulardatafromxml"\
+            command = "python3 ./bin/searchresults.py tabulardatafromxml"\
              " #{job.dir}/sequenceserver-xml_report.xml > #{job.dir}/sequenceserver-custom_tsv_report.tsv"
             system(command)
           end

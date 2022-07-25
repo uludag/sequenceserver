@@ -1,6 +1,6 @@
 # Build variables. These need to be declared befored the first FROM
 # for the variables to be accessible in FROM instruction.
-ARG BLAST_VERSION=2.12.0
+ARG BLAST_VERSION=2.13.0
 
 ## Stage 1: gem dependencies.
 FROM ruby:2.7-slim-buster AS builder
@@ -12,7 +12,7 @@ COPY lib/sequenceserver/version.rb lib/sequenceserver/version.rb
 
 # Install packages required for building gems with C extensions.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc make patch && rm -rf /var/lib/apt/lists/*
+    gcc make patch
 
 # Install gem dependencies using bundler.
 RUN bundle install --without=development
@@ -31,7 +31,9 @@ LABEL Website="http://sequenceserver.com"
 
 # Install packages required to run SequenceServer and BLAST.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl libgomp1 liblmdb0 && rm -rf /var/lib/apt/lists/*
+    python3 python3-pip \
+    curl libgomp1 liblmdb0
+RUN pip3 install --no-cache-dir xmltodict argh
 
 # Copy gem dependencies and BLAST+ binaries from previous build stages.
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
@@ -44,6 +46,7 @@ COPY --from=ncbi-blast /blast/bin/blastx.REAL /blast/bin/blastx
 COPY --from=ncbi-blast /blast/bin/makeblastdb /blast/bin
 COPY --from=ncbi-blast /blast/bin/tblastn.REAL /blast/bin/tblastn
 COPY --from=ncbi-blast /blast/bin/tblastx.REAL /blast/bin/tblastx
+COPY --from=ncbi-blast /blast/bin/psiblast /blast/bin/psiblast
 
 # Add BLAST+ binaries to PATH.
 ENV PATH=/blast/bin:${PATH}
@@ -72,7 +75,7 @@ ENTRYPOINT ["bundle", "exec"]
 CMD ["sequenceserver"]
 
 ## Stage 4 (optional) minify CSS & JS.
-FROM node:15-alpine3.12 AS node
+FROM node:18-alpine3.15 AS node
 
 RUN apk add --no-cache git
 WORKDIR /usr/src/app
