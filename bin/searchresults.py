@@ -31,8 +31,7 @@ def process_iteration(itr, qlen):
     query_id = itr['Iteration_query-def'].split(' ')[0]
     print("# %d similar sequences found" % len(itr['Iteration_hits']['Hit']))
     for sseqs in itr['Iteration_hits']['Hit']:
-        subject_id = sseqs['Hit_accession']
-        subject_id = sseqs['Hit_def'].split(' ')[0]
+        subject_id = sseqs['Hit_id']
         if isinstance(sseqs['Hit_hsps']['Hsp'], list):
             coverage = sum([(int(hsp['Hsp_query-to']) -
                              int(hsp['Hsp_query-from']))
