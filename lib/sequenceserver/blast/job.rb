@@ -76,9 +76,10 @@ module SequenceServer
 
         # Handle error. See [1].
         case exitstatus
-        when 1..2
+        when 1..3
           # 1: Error in query sequences or options.
           # 2: Error in BLAST databases.
+          # 3: Error in processing the search.
           error = IO.foreach(stderr).grep(ERROR_LINE).join
           error = File.read(stderr) if error.empty?
           fail InputError, "(#{exitstatus}) #{error}"
